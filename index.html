@@ -47,7 +47,17 @@
 						<li>Facebook - ivan.lavriv</li>
 						<li>Twitter - @ilavriv</li>
 					</ul>
-					</section>
+          </section>
+          <section>
+            <div>
+              <img width="200" src="./lib/img//2019-08-08 19.43.27.jpg" alt="">
+            </div>
+            <div>
+              <a href="https://t.me/first_lviv_frontend_chat">
+                https://t.me/first_lviv_frontend_chat
+              </a>
+            </div>
+          </section>
 				</section>
 				<section>
 						<div><img src="./lib/img/hutirky.jpg" /></div>
@@ -161,7 +171,7 @@
 								</div>
 							</section>
 							<section>
-									<h3>Search Query param</h3>
+									<h3>Search query param</h3>
 			
 									<div data-markdown>
 										```http
@@ -354,19 +364,23 @@
 
             <section>
               <div data-markdown>
-            ```json 
+              ```json 
               {
                 "_links": {
-                  "self": { "href": "/orders" },
-                  "children": [{
-                      "line_items":  { "href": "orders/1/line-items" }
-                   }]
+                  "self": { "href": "https://api.example.com/v1/orders" },
+                  "line-items": { "href": "https://api.example.com/v1/orders/1234/line-items" }
                 },
-                "meta": {
+                "_meta": {
                   "skip": 20,
                   "limit": 100
                 },
                 "data": [{
+                  "@context": {
+                    "name": "https://schema.org/name",
+                    "price": "https://schema.org/price"
+                  },
+                  "@id": "https://api.example.com/v1/orders/1234",
+                  "id": 1234,
                   "name": "Some order name",
                   "price": 120
                 }]
@@ -422,19 +436,33 @@
 						</section>
 
 						<section>
+							<h4>Bearer token response</h4>
+
+              <div data-markdown>
+							```http
+              Authorization: Bearer access_token
+              ```
+              </div>
+						</section>
+
+						<section>
 							<h3>Oauth2</h3>
 
-							<p>https://oauth.net/2/</p>
+							<p>
+								<a href="https://oauth.net/2/">https://oauth.net/2/</a>
+							</p>
 						</section>
 					</section>
 
 					<section>
-						<h4>Representation</h4>
+						<h3>Representation</h3>
 
 						<section>
 							<h4>Swagger</h4>
 
-							<p>https://swagger.io/specification/</p>
+							<p>
+								<a href="https://swagger.io/specification/">https://swagger.io/specification/</a>
+							</p>
 						</section>
 
 						<section>
@@ -442,7 +470,7 @@
 								```yml
 								title: Orders API
 								description: Represents order api
-								termsOfService: http://example.com/terms/
+								termsOfService: http://orders-service.com/terms/
 								contact:
   								name: API Support
 									url: http://www.example.com/support
@@ -460,7 +488,9 @@
 						<h4>SDK</h4>
 
 						<section>
-							<p>https://swagger.io/tools/swagger-codegen/</p>
+							<p>
+								<a href="https://swagger.io/tools/swagger-codegen/">https://swagger.io/tools/swagger-codegen/</a>
+							</p>
 						</section>
 					</section>
 
@@ -470,13 +500,23 @@
 						<section>
 							<h4>HAL</h4>
 
-							<p>http://stateless.co/hal_specification.html</p>
+							<p>
+								<a href="http://stateless.co/hal_specification.html">http://stateless.co/hal_specification.html</a>
+							</p>
 						</section>
 
 						<section>
 							<h4>JSON API</h4>
 
-							<p>https://jsonapi.org/</p>
+							<p>
+								<a href="https://jsonapi.org/">https://jsonapi.org/</a>
+							</p>
+						</section>
+
+						<section>
+							<h4>Siren</h4>
+
+							<a href="https://github.com/kevinswiber/siren">https://github.com/kevinswiber/siren</a>
 						</section>
 					</section>
 
@@ -492,7 +532,10 @@
 							</li>
 							<li>
 								<a href="https://www.programmableweb.com/news/hypermedia-apis-benefits-hateoas/how-to/2014/02/27">https://www.programmableweb.com/news/hypermedia-apis-benefits-hateoas/how-to/2014/02/27</a>
-							</li>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/watch?v=g4sqydY3hHU">https://www.youtube.com/watch?v=g4sqydY3hHU</a>
+              </li>
 						</ul>
 					</section>
 

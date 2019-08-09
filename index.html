@@ -1,0 +1,529 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>GDG Rest api</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/serif.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>Api - good && bad</h3>
+					<p>Ivan Lavriv</p>
+				</section>
+				<section>
+					<h3>whoami</h3>
+
+					<section>
+						<img src="./lib/img/1978_oooo.plus.png" alt="" width="300" />
+					</section>
+
+					<section>
+						<ul>
+							<li>Software Engineer - Perfectial</li>
+							<li>Educator - LITS</li>
+						</ul>
+				</section>
+				<section>
+					<ul>
+						<li>Facebook - ivan.lavriv</li>
+						<li>Twitter - @ilavriv</li>
+					</ul>
+					</section>
+				</section>
+				<section>
+						<div><img src="./lib/img/hutirky.jpg" /></div>
+				</section>
+				<section>
+					<h3>Good API components</h3>
+
+					<section>
+						<div class="fragment">Endpoints design</div>
+						<div class="fragment">Payload</div>
+						<div class="fragment">Errors</div>
+						<div class="fragment">Versioning</div>
+						<div class="fragment">Data validation</div>
+						<div class="fragment">Representation</div>
+						<div class="fragment">SDK</div>
+					</section>
+				</section>
+
+				<section>
+					<h3>Endpoints design</h3>
+
+					<section>
+							<h4>Bad</h4>
+
+							<div data-markdown>
+								```http
+								GET /getAllOrders
+								```
+							</div>
+
+							<div data-markdown>
+									```http
+									POST /addOrder
+									```
+								</div>
+					</section>
+					<section>
+						<h4>Good (Semantic names)</h4>
+
+						<div data-markdown>
+								```http
+								GET /orders
+								```
+						</div>
+
+						<div data-markdown>
+							```http
+							POST /orders
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+						<h3>Resource structure</h3>
+
+						<section>
+						<div data-markdown>
+							```http
+							GET /orders
+
+							POST /orders
+
+							PUT /orders/:id
+						
+							PATCH /orders/:id
+						
+							DELETE /orders/id
+							```
+						</div>
+						</section>
+					</section>
+					<section>
+						<h3>Old clients</h3>
+
+						<section>
+							<b>X-HTTP-Method-Override</b> - for old HTTP clients
+						</section>
+					</section>
+					<section>
+							<h3>Resources hierarchy</h3>
+
+							<section>
+							<div data-markdown>
+								```http
+								GET /orders/:id/line-items
+								```
+							</div>
+							</section>
+						</section>
+					<section>
+						<h3>Filtering / Ordering / Pagination</h3>
+					</section>
+
+					<section>
+						<h3>Filtering</h3>
+
+						<section>
+							<h4>LHS Brackets </h4>
+							<div data-markdown>
+								```http
+								GET /orders?status=active&price[gte]=10&price[lte]=1000
+								```
+							</div>
+						</section>
+						<section>
+								<h4>RHS Colon </h4>
+								<div data-markdown>
+									```http
+									GET /orders?status=active&price:gte=10&price:lte=1000
+									```
+								</div>
+							</section>
+							<section>
+									<h3>Search Query param</h3>
+			
+									<div data-markdown>
+										```http
+										GET /orders?q=color:red&title:test_title
+										```
+									</div>
+								</section>
+					</section>
+					<section>
+						<h3>Sorting</h3>
+
+						<section>
+							<h4>1th example</h4>
+						<div data-markdown>
+							```http
+							GET /orders?sort_by=asc(price)
+							```
+						</div>
+						</section>
+						<section>
+								<h4>2th example</h4>
+							<div data-markdown>
+								```http
+								GET /orders?sort_by=+price
+								```
+							</div>
+							</section>
+					</section>
+					<section>
+						<h3>Pagination</h3>
+
+						<section>
+						<div data-markdown>
+							```http
+							GET /orders?limit=1000&offset=20
+							```
+						</div>
+					</section>
+					</section>
+					<section>
+						<h3>Limiting Resource structure</h3>
+
+						<section>
+						<div data-markdown>
+						```http
+						GET /orders?fields=title,price,quantity
+						```
+						</div>
+						</section>
+					</section>
+					<section>
+						<h3>Versions</h3>
+
+						<section>
+							<h4>Semver</h4>
+
+							<div data-markdown>
+								```
+								/v1/
+								```
+							</div>
+							<div data-markdown>
+									```
+									/v1.0.4/
+									```
+							</div>
+						</section>
+					</section>
+					<section>
+						<h3>Headers</h3>
+
+						<section>
+							<h4>Plain</h4>
+
+							<div data-markdown>
+							```http
+							application/json
+							```
+							</div>
+						</section>
+						<section>
+							<h4>Vendor specified</h4>
+
+							<div data-markdown>
+								```http
+								application/vnd.github.v3+json
+								```
+							</div>
+						</section>
+						<section>
+							<h4>Drafts specified</h4>
+
+							<div data-markdown>
+								```http
+								application/hal+json
+
+								application/vnd.api+json
+								```
+							</div>
+						</section>
+					</section>
+					<section>
+						<h3>HTTP Statuses</h3>
+
+						<section>
+							<h4><b>200</b> - OK</h4>
+
+							<p>Use for getting data from api</p>
+						</section>
+
+						<section>
+							<h4><b>201</b> - Created</h4>
+
+							<p>Status when data created</p>
+						</section>
+
+						<section>
+							<h4><b>304</b> - Cached data</h4>
+
+							<p>Caching</p>
+						</section>
+
+						<section>
+								<h4><b>400</b> - Bad request</h4>
+	
+								<p>Bad format synthax of input</p>
+							</section>
+
+
+							<section>
+									<h4><b>422</b> - Unprocessable Entity</h4>
+		
+									<p>Validation errors</p>
+							</section>
+
+							<section>
+									<h4><b>429</b> - Too many requests</h4>
+		
+									<p>Limiting resources</p>
+							</section>
+					</section>
+
+					<section>
+						<h3>Validate input</h3>
+
+						<section>
+							<h4>JSON schema</h4>
+
+							<div data-markdown>
+								```
+								{
+									"type" : "object",
+									"properties" : {
+										"price" : {"type" : "number"},
+										"name" : {"type" : "string"},
+									},
+									"required": ["price", "name"]
+								}
+								```
+							</div>
+						</section>
+						<section>
+							<h4>JSON schema validation example (Python)</h4>
+							<div data-markdown>
+								```python
+								import jsonschema
+
+								def validate(schema):
+									v = jsonschema.Draft7Validator(schema)
+										
+									@wrapps(fn)
+									def wrapper(fn):
+										def wrapped(*args, **kwargs):
+											errors = [
+												e.message for e in v.iter_errors(request.json)
+											]
+														
+											if errors:
+												return reply_json({ 'errors': errors })
+														
+											return fn(*args, *kwargs)
+										return wrapped
+									return wrapper
+								```
+							</div>
+            </section>
+          </section>
+          <section>
+            <h3>Format response</h3>
+
+            <section>
+              <div data-markdown>
+            ```json 
+              {
+                "_links": {
+                  "self": { "href": "/orders" },
+                  "children": [{
+                      "line_items":  { "href": "orders/1/line-items" }
+                   }]
+                },
+                "meta": {
+                  "skip": 20,
+                  "limit": 100
+                },
+                "data": [{
+                  "name": "Some order name",
+                  "price": 120
+                }]
+              }
+            ```
+            </div>
+            </section>
+          </section>
+
+          <section>
+            <h3>Limiting requests</h3>
+
+						<section>
+						<div class="fragment">
+							<b>X-Rate-Limit-Limit</b> - Max number of request
+						</div>
+						<div class="fragment">
+							<b>X-Rate-Limit-Remaining</b> - Number of remaining request
+						</div>
+						<div class="fragment">
+							<b>X-Rate-Limit-Reset</b> - Number of remaining seconds of current period
+						</div>
+						</section>
+					</section>
+					<section>
+						<h3>Caching resources</h3>
+
+						<section>
+							<p><b>Etag</b> - Hash to validate cache</p>
+						</section>
+
+						<section>
+							<p><b>Last-Modified</b> - Time based cache validation</p>
+						</section>
+					</section>
+
+					<section>
+						<h3>Api authentication</h3>
+
+						<section>
+							<h4>Bearer token</h4>
+
+							<div data-markdown>
+							```json
+							{
+								"access_token":"mF_9.B5f-4.1JqM",
+								"token_type":"Bearer",
+								"expires_in":3600,
+								"refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+							}
+							```
+						</div>
+						</section>
+
+						<section>
+							<h3>Oauth2</h3>
+
+							<p>https://oauth.net/2/</p>
+						</section>
+					</section>
+
+					<section>
+						<h4>Representation</h4>
+
+						<section>
+							<h4>Swagger</h4>
+
+							<p>https://swagger.io/specification/</p>
+						</section>
+
+						<section>
+							<div data-markdown>
+								```yml
+								title: Orders API
+								description: Represents order api
+								termsOfService: http://example.com/terms/
+								contact:
+  								name: API Support
+									url: http://www.example.com/support
+									email: support@example.com
+								license:
+  								name: Apache 2.0
+  								url: https://www.apache.org/licenses/LICENSE-2.0.html
+									version: 1.0.1
+								```
+							</div>
+						</section>
+					</section>
+
+					<section>
+						<h4>SDK</h4>
+
+						<section>
+							<p>https://swagger.io/tools/swagger-codegen/</p>
+						</section>
+					</section>
+
+					<section>
+						<h3>Common standarts</h3>
+
+						<section>
+							<h4>HAL</h4>
+
+							<p>http://stateless.co/hal_specification.html</p>
+						</section>
+
+						<section>
+							<h4>JSON API</h4>
+
+							<p>https://jsonapi.org/</p>
+						</section>
+					</section>
+
+					<section>
+						<h4>Resources</h4>
+
+						<ul>
+							<li>
+								<a href="https://nordicapis.com/designing-a-true-rest-state-machine/">https://nordicapis.com/designing-a-true-rest-state-machine/</a>
+							</li>
+							<li>
+								<a href="https://smartbear.com/learn/api-design/traits-of-a-good-rest-api/">https://smartbear.com/learn/api-design/traits-of-a-good-rest-api/</a>
+							</li>
+							<li>
+								<a href="https://www.programmableweb.com/news/hypermedia-apis-benefits-hateoas/how-to/2014/02/27">https://www.programmableweb.com/news/hypermedia-apis-benefits-hateoas/how-to/2014/02/27</a>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Any questions?</h3>
+					</section>
+
+					<section>
+						<h3>Thank you!!!!</h3>
+					</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+
+			Reveal.configure({
+				slideNumber: true
+			});
+		</script>
+	</body>
+</html>
